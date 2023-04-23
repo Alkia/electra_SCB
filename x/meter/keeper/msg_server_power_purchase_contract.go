@@ -10,7 +10,23 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
+// To put in a tool file
+func notAdmin(Creator string, valFoundCreator string) bool { // check if msg.Creator == DefaultBillingAdmin or Admin
+	res := !((Creator == valFoundCreator) || (Creator == "electra1krkk5xtp8s7lk9xf2az70txle50zfzga7dah87") || (Creator == "electra16n5tnkck6rcg7gxmalc057daputvac5pzjeal9"))
+	return res
+}
 
+// If the provided msg.ContractID has the size of an ID then use it otherwise generate a unique UUID
+func validateID(msgContractID string) string {
+	var stemp string
+	if len(msgContractID) > 8 {
+		stemp = msgContractID
+	} else {
+		uuidValue := uuid.New()
+		stemp = fmt.Sprintf("%s", uuidValue)
+	}
+	return stemp
+}
 
 func (k msgServer) CreatePowerPurchaseContract(goCtx context.Context, msg *types.MsgCreatePowerPurchaseContract) (*types.MsgCreatePowerPurchaseContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -37,7 +53,7 @@ func (k msgServer) CreatePowerPurchaseContract(goCtx context.Context, msg *types
 
 	var powerPurchaseContract = types.PowerPurchaseContract{
 		Creator:                       msg.Creator,
-		ContractID:                    msg.ContractID,
+		ContractID:                    stemp, //msg.ContractID,
 		ContractDeviceID:              msg.ContractDeviceID,
 		ContractName:                  msg.ContractName,
 		ContractActive:                msg.ContractActive,

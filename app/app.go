@@ -106,6 +106,9 @@ import (
 	metermodule "electra/x/meter"
 	metermodulekeeper "electra/x/meter/keeper"
 	metermoduletypes "electra/x/meter/types"
+	votermodule "electra/x/voter"
+	votermodulekeeper "electra/x/voter/keeper"
+	votermoduletypes "electra/x/voter/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "electra/app/params"
@@ -165,6 +168,7 @@ var (
 		ica.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		metermodule.AppModuleBasic{},
+		votermodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -240,6 +244,8 @@ type App struct {
 	ScopedICAHostKeeper  capabilitykeeper.ScopedKeeper
 
 	MeterKeeper metermodulekeeper.Keeper
+
+	VoterKeeper votermodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -285,6 +291,7 @@ func New(
 		ibctransfertypes.StoreKey, icahosttypes.StoreKey, capabilitytypes.StoreKey, group.StoreKey,
 		icacontrollertypes.StoreKey,
 		metermoduletypes.StoreKey,
+		votermoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -511,6 +518,14 @@ func New(
 	)
 	meterModule := metermodule.NewAppModule(appCodec, app.MeterKeeper, app.AccountKeeper, app.BankKeeper)
 
+	app.VoterKeeper = *votermodulekeeper.NewKeeper(
+		appCodec,
+		keys[votermoduletypes.StoreKey],
+		keys[votermoduletypes.MemStoreKey],
+		app.GetSubspace(votermoduletypes.ModuleName),
+	)
+	voterModule := votermodule.NewAppModule(appCodec, app.VoterKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	/**** IBC Routing ****/
@@ -577,6 +592,7 @@ func New(
 		transferModule,
 		icaModule,
 		meterModule,
+		voterModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -607,6 +623,7 @@ func New(
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
 		metermoduletypes.ModuleName,
+		votermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -632,6 +649,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		metermoduletypes.ModuleName,
+		votermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -662,6 +680,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		metermoduletypes.ModuleName,
+		votermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -692,6 +711,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		meterModule,
+		voterModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -897,6 +917,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(icacontrollertypes.SubModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(metermoduletypes.ModuleName)
+	paramsKeeper.Subspace(votermoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper

@@ -1,0 +1,7 @@
+syntax = "proto3";
+package electra.voter;
+
+option go_package = "electra/x/voter/types";
+
+// Msg defines the Msg service.
+service Msg {}

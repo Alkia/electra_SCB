@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package electra.voter;
+
+import "electra/voter/poll.proto";
+import "electra/voter/vote.proto";
+
+option go_package = "electra/x/voter/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc CreatePoll (MsgCreatePoll) returns (MsgCreatePollResponse);
+  rpc UpdatePoll (MsgUpdatePoll) returns (MsgUpdatePollResponse);
+  rpc DeletePoll (MsgDeletePoll) returns (MsgDeletePollResponse);
+  rpc CreateVote (MsgCreateVote) returns (MsgCreateVoteResponse);
+  rpc UpdateVote (MsgUpdateVote) returns (MsgUpdateVoteResponse);
+  rpc DeleteVote (MsgDeleteVote) returns (MsgDeleteVoteResponse);
+}
+message MsgCreatePoll {
+  string creator = 1;
+  string title   = 2;
+  string options = 3;
+}
+
+message MsgCreatePollResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdatePoll {
+  string creator = 1;
+  uint64 id      = 2;
+  string title   = 3;
+  string options = 4;
+}
+
+message MsgUpdatePollResponse {}
+
+message MsgDeletePoll {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeletePollResponse {}
+
+message MsgCreateVote {
+  string creator = 1;
+  string pollID  = 2;
+  string option  = 3;
+}
+
+message MsgCreateVoteResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateVote {
+  string creator = 1;
+  uint64 id      = 2;
+  string pollID  = 3;
+  string option  = 4;
+}
+
+message MsgUpdateVoteResponse {}
+
+message MsgDeleteVote {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteVoteResponse {}
+

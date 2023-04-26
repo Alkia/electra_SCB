@@ -12,7 +12,7 @@
 <br>
     		[Create]  [Update] [Activate] [Desactivate]
 	  </div>
-          <div class="electra_sp"><div class="title">Smart Grid Who's Who</div>
+          <div class="electra_sp"><div class="title">Your MicroGrid Who's Who</div>
 	  <center><img src="/micro-grid-map.jpg" alt="map"></center>
  <ul>
                 <li>Partner A | electra1ewjd9u8vf6wdyqkplhpf8xs0t2upjsrqe94h2h | Balance +600kWh  </li>

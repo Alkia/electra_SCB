@@ -196,7 +196,7 @@ message QueryListrecordingsRequest {
 }
 
 message QueryListrecordingsResponse {
-  string meterreadings = 1;
+  repeated string meterreadings = 1;
   string comments      = 2;
   uint64 total         = 3;
   cosmos.base.query.v1beta1.PageResponse pagination = 4; 
@@ -297,7 +297,7 @@ message QueryGetcustomerbillRequest {
 }
 
 message QueryGetcustomerbillResponse {
-  string customerbillinglines = 1;
+  repeated string customerbillinglines = 1;
   uint64 billTotalWh          = 2;
   uint64 billTotalPrice       = 3;
   string currency             = 4;
@@ -352,7 +352,7 @@ message QueryGetproducerbillRequest {
 }
 
 message QueryGetproducerbillResponse {
-  string producerbillinglines = 1;
+  repeated string producerbillinglines = 1;
   uint64 billTotalWh          = 2;
   uint64 billTotalPrice       = 3;
   string curency              = 4;
@@ -378,4 +378,3 @@ message QueryAllProducerbillsResponse {
   repeated Producerbills                          producerbills = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination    = 2;
 }
-

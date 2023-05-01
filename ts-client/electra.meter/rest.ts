@@ -491,7 +491,7 @@ export interface MeterQueryGetProducerbillsResponse {
 }
 
 export interface MeterQueryGetcustomerbillResponse {
-  customerbillinglines?: string;
+  customerbillinglines?: string[];
 
   /** @format uint64 */
   billTotalWh?: string;
@@ -517,7 +517,7 @@ export interface MeterQueryGetcustomerbillResponse {
 }
 
 export interface MeterQueryGetproducerbillResponse {
-  producerbillinglines?: string;
+  producerbillinglines?: string[];
 
   /** @format uint64 */
   billTotalWh?: string;
@@ -543,7 +543,7 @@ export interface MeterQueryGetproducerbillResponse {
 }
 
 export interface MeterQueryListrecordingsResponse {
-  meterreadings?: string;
+  meterreadings?: string[];
   comments?: string;
 
   /** @format uint64 */

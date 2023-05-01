@@ -70,7 +70,7 @@ export interface QueryListrecordingsRequest {
 }
 
 export interface QueryListrecordingsResponse {
-  meterreadings: string;
+  meterreadings: string[];
   comments: string;
   total: number;
   pagination: PageResponse | undefined;
@@ -172,7 +172,7 @@ export interface QueryGetcustomerbillRequest {
 }
 
 export interface QueryGetcustomerbillResponse {
-  customerbillinglines: string;
+  customerbillinglines: string[];
   billTotalWh: number;
   billTotalPrice: number;
   currency: string;
@@ -226,7 +226,7 @@ export interface QueryGetproducerbillRequest {
 }
 
 export interface QueryGetproducerbillResponse {
-  producerbillinglines: string;
+  producerbillinglines: string[];
   billTotalWh: number;
   billTotalPrice: number;
   curency: string;
@@ -894,13 +894,13 @@ export const QueryListrecordingsRequest = {
 };
 
 function createBaseQueryListrecordingsResponse(): QueryListrecordingsResponse {
-  return { meterreadings: "", comments: "", total: 0, pagination: undefined };
+  return { meterreadings: [], comments: "", total: 0, pagination: undefined };
 }
 
 export const QueryListrecordingsResponse = {
   encode(message: QueryListrecordingsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.meterreadings !== "") {
-      writer.uint32(10).string(message.meterreadings);
+    for (const v of message.meterreadings) {
+      writer.uint32(10).string(v!);
     }
     if (message.comments !== "") {
       writer.uint32(18).string(message.comments);
@@ -922,7 +922,7 @@ export const QueryListrecordingsResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.meterreadings = reader.string();
+          message.meterreadings.push(reader.string());
           break;
         case 2:
           message.comments = reader.string();
@@ -943,7 +943,7 @@ export const QueryListrecordingsResponse = {
 
   fromJSON(object: any): QueryListrecordingsResponse {
     return {
-      meterreadings: isSet(object.meterreadings) ? String(object.meterreadings) : "",
+      meterreadings: Array.isArray(object?.meterreadings) ? object.meterreadings.map((e: any) => String(e)) : [],
       comments: isSet(object.comments) ? String(object.comments) : "",
       total: isSet(object.total) ? Number(object.total) : 0,
       pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
@@ -952,7 +952,11 @@ export const QueryListrecordingsResponse = {
 
   toJSON(message: QueryListrecordingsResponse): unknown {
     const obj: any = {};
-    message.meterreadings !== undefined && (obj.meterreadings = message.meterreadings);
+    if (message.meterreadings) {
+      obj.meterreadings = message.meterreadings.map((e) => e);
+    } else {
+      obj.meterreadings = [];
+    }
     message.comments !== undefined && (obj.comments = message.comments);
     message.total !== undefined && (obj.total = Math.round(message.total));
     message.pagination !== undefined
@@ -962,7 +966,7 @@ export const QueryListrecordingsResponse = {
 
   fromPartial<I extends Exact<DeepPartial<QueryListrecordingsResponse>, I>>(object: I): QueryListrecordingsResponse {
     const message = createBaseQueryListrecordingsResponse();
-    message.meterreadings = object.meterreadings ?? "";
+    message.meterreadings = object.meterreadings?.map((e) => e) || [];
     message.comments = object.comments ?? "";
     message.total = object.total ?? 0;
     message.pagination = (object.pagination !== undefined && object.pagination !== null)
@@ -2151,7 +2155,7 @@ export const QueryGetcustomerbillRequest = {
 
 function createBaseQueryGetcustomerbillResponse(): QueryGetcustomerbillResponse {
   return {
-    customerbillinglines: "",
+    customerbillinglines: [],
     billTotalWh: 0,
     billTotalPrice: 0,
     currency: "",
@@ -2163,8 +2167,8 @@ function createBaseQueryGetcustomerbillResponse(): QueryGetcustomerbillResponse 
 
 export const QueryGetcustomerbillResponse = {
   encode(message: QueryGetcustomerbillResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.customerbillinglines !== "") {
-      writer.uint32(10).string(message.customerbillinglines);
+    for (const v of message.customerbillinglines) {
+      writer.uint32(10).string(v!);
     }
     if (message.billTotalWh !== 0) {
       writer.uint32(16).uint64(message.billTotalWh);
@@ -2195,7 +2199,7 @@ export const QueryGetcustomerbillResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.customerbillinglines = reader.string();
+          message.customerbillinglines.push(reader.string());
           break;
         case 2:
           message.billTotalWh = longToNumber(reader.uint64() as Long);
@@ -2225,7 +2229,9 @@ export const QueryGetcustomerbillResponse = {
 
   fromJSON(object: any): QueryGetcustomerbillResponse {
     return {
-      customerbillinglines: isSet(object.customerbillinglines) ? String(object.customerbillinglines) : "",
+      customerbillinglines: Array.isArray(object?.customerbillinglines)
+        ? object.customerbillinglines.map((e: any) => String(e))
+        : [],
       billTotalWh: isSet(object.billTotalWh) ? Number(object.billTotalWh) : 0,
       billTotalPrice: isSet(object.billTotalPrice) ? Number(object.billTotalPrice) : 0,
       currency: isSet(object.currency) ? String(object.currency) : "",
@@ -2237,7 +2243,11 @@ export const QueryGetcustomerbillResponse = {
 
   toJSON(message: QueryGetcustomerbillResponse): unknown {
     const obj: any = {};
-    message.customerbillinglines !== undefined && (obj.customerbillinglines = message.customerbillinglines);
+    if (message.customerbillinglines) {
+      obj.customerbillinglines = message.customerbillinglines.map((e) => e);
+    } else {
+      obj.customerbillinglines = [];
+    }
     message.billTotalWh !== undefined && (obj.billTotalWh = Math.round(message.billTotalWh));
     message.billTotalPrice !== undefined && (obj.billTotalPrice = Math.round(message.billTotalPrice));
     message.currency !== undefined && (obj.currency = message.currency);
@@ -2250,7 +2260,7 @@ export const QueryGetcustomerbillResponse = {
 
   fromPartial<I extends Exact<DeepPartial<QueryGetcustomerbillResponse>, I>>(object: I): QueryGetcustomerbillResponse {
     const message = createBaseQueryGetcustomerbillResponse();
-    message.customerbillinglines = object.customerbillinglines ?? "";
+    message.customerbillinglines = object.customerbillinglines?.map((e) => e) || [];
     message.billTotalWh = object.billTotalWh ?? 0;
     message.billTotalPrice = object.billTotalPrice ?? 0;
     message.currency = object.currency ?? "";
@@ -2820,7 +2830,7 @@ export const QueryGetproducerbillRequest = {
 
 function createBaseQueryGetproducerbillResponse(): QueryGetproducerbillResponse {
   return {
-    producerbillinglines: "",
+    producerbillinglines: [],
     billTotalWh: 0,
     billTotalPrice: 0,
     curency: "",
@@ -2832,8 +2842,8 @@ function createBaseQueryGetproducerbillResponse(): QueryGetproducerbillResponse 
 
 export const QueryGetproducerbillResponse = {
   encode(message: QueryGetproducerbillResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.producerbillinglines !== "") {
-      writer.uint32(10).string(message.producerbillinglines);
+    for (const v of message.producerbillinglines) {
+      writer.uint32(10).string(v!);
     }
     if (message.billTotalWh !== 0) {
       writer.uint32(16).uint64(message.billTotalWh);
@@ -2864,7 +2874,7 @@ export const QueryGetproducerbillResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.producerbillinglines = reader.string();
+          message.producerbillinglines.push(reader.string());
           break;
         case 2:
           message.billTotalWh = longToNumber(reader.uint64() as Long);
@@ -2894,7 +2904,9 @@ export const QueryGetproducerbillResponse = {
 
   fromJSON(object: any): QueryGetproducerbillResponse {
     return {
-      producerbillinglines: isSet(object.producerbillinglines) ? String(object.producerbillinglines) : "",
+      producerbillinglines: Array.isArray(object?.producerbillinglines)
+        ? object.producerbillinglines.map((e: any) => String(e))
+        : [],
       billTotalWh: isSet(object.billTotalWh) ? Number(object.billTotalWh) : 0,
       billTotalPrice: isSet(object.billTotalPrice) ? Number(object.billTotalPrice) : 0,
       curency: isSet(object.curency) ? String(object.curency) : "",
@@ -2906,7 +2918,11 @@ export const QueryGetproducerbillResponse = {
 
   toJSON(message: QueryGetproducerbillResponse): unknown {
     const obj: any = {};
-    message.producerbillinglines !== undefined && (obj.producerbillinglines = message.producerbillinglines);
+    if (message.producerbillinglines) {
+      obj.producerbillinglines = message.producerbillinglines.map((e) => e);
+    } else {
+      obj.producerbillinglines = [];
+    }
     message.billTotalWh !== undefined && (obj.billTotalWh = Math.round(message.billTotalWh));
     message.billTotalPrice !== undefined && (obj.billTotalPrice = Math.round(message.billTotalPrice));
     message.curency !== undefined && (obj.curency = message.curency);
@@ -2919,7 +2935,7 @@ export const QueryGetproducerbillResponse = {
 
   fromPartial<I extends Exact<DeepPartial<QueryGetproducerbillResponse>, I>>(object: I): QueryGetproducerbillResponse {
     const message = createBaseQueryGetproducerbillResponse();
-    message.producerbillinglines = object.producerbillinglines ?? "";
+    message.producerbillinglines = object.producerbillinglines?.map((e) => e) || [];
     message.billTotalWh = object.billTotalWh ?? 0;
     message.billTotalPrice = object.billTotalPrice ?? 0;
     message.curency = object.curency ?? "";

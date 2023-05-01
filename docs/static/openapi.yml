@@ -33298,7 +33298,9 @@ paths:
             type: object
             properties:
               customerbillinglines:
-                type: string
+                type: array
+                items:
+                  type: string
               billTotalWh:
                 type: string
                 format: uint64
@@ -33437,7 +33439,9 @@ paths:
             type: object
             properties:
               producerbillinglines:
-                type: string
+                type: array
+                items:
+                  type: string
               billTotalWh:
                 type: string
                 format: uint64
@@ -33576,7 +33580,9 @@ paths:
             type: object
             properties:
               meterreadings:
-                type: string
+                type: array
+                items:
+                  type: string
               comments:
                 type: string
               total:
@@ -70927,7 +70933,9 @@ definitions:
     type: object
     properties:
       customerbillinglines:
-        type: string
+        type: array
+        items:
+          type: string
       billTotalWh:
         type: string
         format: uint64
@@ -70971,7 +70979,9 @@ definitions:
     type: object
     properties:
       producerbillinglines:
-        type: string
+        type: array
+        items:
+          type: string
       billTotalWh:
         type: string
         format: uint64
@@ -71015,7 +71025,9 @@ definitions:
     type: object
     properties:
       meterreadings:
-        type: string
+        type: array
+        items:
+          type: string
       comments:
         type: string
       total:

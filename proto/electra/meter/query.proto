@@ -390,7 +390,7 @@ message QueryListrecordings100Request {
 }
 
 message QueryListrecordings100Response {
-  string meterreadings = 1;
+  repeated string meterreadings = 1;
   string comments      = 2;
   uint64 total         = 3;
 }

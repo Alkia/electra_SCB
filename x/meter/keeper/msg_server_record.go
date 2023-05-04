@@ -10,7 +10,7 @@ import (
 func (k msgServer) Record(goCtx context.Context, msg *types.MsgRecord) (*types.MsgRecordResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	 	// DONE: Handling the message
+	// DONE: Handling the message
 	//var datetimeM = fmt.Sprintf("%d", ctx.BlockHeight())
 
 	var recording = types.Meterreadings{

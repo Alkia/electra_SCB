@@ -253,6 +253,17 @@ export interface QueryAllProducerbillsResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryListrecordings100Request {
+  deviceID: string;
+  byUnixTime: boolean;
+}
+
+export interface QueryListrecordings100Response {
+  meterreadings: string;
+  comments: string;
+  total: number;
+}
+
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
@@ -3177,6 +3188,135 @@ export const QueryAllProducerbillsResponse = {
   },
 };
 
+function createBaseQueryListrecordings100Request(): QueryListrecordings100Request {
+  return { deviceID: "", byUnixTime: false };
+}
+
+export const QueryListrecordings100Request = {
+  encode(message: QueryListrecordings100Request, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.deviceID !== "") {
+      writer.uint32(10).string(message.deviceID);
+    }
+    if (message.byUnixTime === true) {
+      writer.uint32(16).bool(message.byUnixTime);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryListrecordings100Request {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryListrecordings100Request();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.deviceID = reader.string();
+          break;
+        case 2:
+          message.byUnixTime = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryListrecordings100Request {
+    return {
+      deviceID: isSet(object.deviceID) ? String(object.deviceID) : "",
+      byUnixTime: isSet(object.byUnixTime) ? Boolean(object.byUnixTime) : false,
+    };
+  },
+
+  toJSON(message: QueryListrecordings100Request): unknown {
+    const obj: any = {};
+    message.deviceID !== undefined && (obj.deviceID = message.deviceID);
+    message.byUnixTime !== undefined && (obj.byUnixTime = message.byUnixTime);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryListrecordings100Request>, I>>(
+    object: I,
+  ): QueryListrecordings100Request {
+    const message = createBaseQueryListrecordings100Request();
+    message.deviceID = object.deviceID ?? "";
+    message.byUnixTime = object.byUnixTime ?? false;
+    return message;
+  },
+};
+
+function createBaseQueryListrecordings100Response(): QueryListrecordings100Response {
+  return { meterreadings: "", comments: "", total: 0 };
+}
+
+export const QueryListrecordings100Response = {
+  encode(message: QueryListrecordings100Response, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.meterreadings !== "") {
+      writer.uint32(10).string(message.meterreadings);
+    }
+    if (message.comments !== "") {
+      writer.uint32(18).string(message.comments);
+    }
+    if (message.total !== 0) {
+      writer.uint32(24).uint64(message.total);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryListrecordings100Response {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryListrecordings100Response();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.meterreadings = reader.string();
+          break;
+        case 2:
+          message.comments = reader.string();
+          break;
+        case 3:
+          message.total = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryListrecordings100Response {
+    return {
+      meterreadings: isSet(object.meterreadings) ? String(object.meterreadings) : "",
+      comments: isSet(object.comments) ? String(object.comments) : "",
+      total: isSet(object.total) ? Number(object.total) : 0,
+    };
+  },
+
+  toJSON(message: QueryListrecordings100Response): unknown {
+    const obj: any = {};
+    message.meterreadings !== undefined && (obj.meterreadings = message.meterreadings);
+    message.comments !== undefined && (obj.comments = message.comments);
+    message.total !== undefined && (obj.total = Math.round(message.total));
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryListrecordings100Response>, I>>(
+    object: I,
+  ): QueryListrecordings100Response {
+    const message = createBaseQueryListrecordings100Response();
+    message.meterreadings = object.meterreadings ?? "";
+    message.comments = object.comments ?? "";
+    message.total = object.total ?? 0;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -3218,6 +3358,8 @@ export interface Query {
   /** Queries a list of Producerbills items. */
   Producerbills(request: QueryGetProducerbillsRequest): Promise<QueryGetProducerbillsResponse>;
   ProducerbillsAll(request: QueryAllProducerbillsRequest): Promise<QueryAllProducerbillsResponse>;
+  /** Queries a list of Listrecordings100 items. */
+  Listrecordings100(request: QueryListrecordings100Request): Promise<QueryListrecordings100Response>;
 }
 
 export class QueryClientImpl implements Query {
@@ -3247,6 +3389,7 @@ export class QueryClientImpl implements Query {
     this.Getproducerbill = this.Getproducerbill.bind(this);
     this.Producerbills = this.Producerbills.bind(this);
     this.ProducerbillsAll = this.ProducerbillsAll.bind(this);
+    this.Listrecordings100 = this.Listrecordings100.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -3386,6 +3529,12 @@ export class QueryClientImpl implements Query {
     const data = QueryAllProducerbillsRequest.encode(request).finish();
     const promise = this.rpc.request("electra.meter.Query", "ProducerbillsAll", data);
     return promise.then((data) => QueryAllProducerbillsResponse.decode(new _m0.Reader(data)));
+  }
+
+  Listrecordings100(request: QueryListrecordings100Request): Promise<QueryListrecordings100Response> {
+    const data = QueryListrecordings100Request.encode(request).finish();
+    const promise = this.rpc.request("electra.meter.Query", "Listrecordings100", data);
+    return promise.then((data) => QueryListrecordings100Response.decode(new _m0.Reader(data)));
   }
 }
 

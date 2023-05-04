@@ -18,7 +18,7 @@ var (
 var (
 	KeyModuleParamBestForCustomer = []byte("ModuleParamBestForCustomer")
 	// TODO: Determine the default value
-	DefaultModuleParamBestForCustomer bool =  true
+	DefaultModuleParamBestForCustomer bool = true
 )
 
 var (

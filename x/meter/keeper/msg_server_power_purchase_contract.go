@@ -41,7 +41,6 @@ func (k msgServer) CreatePowerPurchaseContract(goCtx context.Context, msg *types
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
-
 	// Checks if the the msg creator is the same as the current owner or Check that the user is an admin
 	if notAdmin(msg.Creator, msg.ContractDeviceID) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "The contract creation must be an administrator | you do not have permission")
@@ -49,7 +48,6 @@ func (k msgServer) CreatePowerPurchaseContract(goCtx context.Context, msg *types
 
 	// If the provided msg.ContractID has the size of an ID then use it otherwise generate a unique UUID
 	stemp := validateID(msg.ContractID)
-
 
 	var powerPurchaseContract = types.PowerPurchaseContract{
 		Creator:                       msg.Creator,
@@ -92,7 +90,6 @@ func (k msgServer) UpdatePowerPurchaseContract(goCtx context.Context, msg *types
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
-
 
 	// Checks if the the msg creator is the same as the current owner or Check that the user is an admin
 	if notAdmin(msg.Creator, valFound.Creator) {
@@ -143,15 +140,15 @@ func (k msgServer) DeletePowerPurchaseContract(goCtx context.Context, msg *types
 	if notAdmin(msg.Creator, valFound.Creator) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "The contract creation must be an administrator | you do not have permission")
 	}
-/*
-	k.RemovePowerPurchaseContract(
-		ctx,
-		msg.ContractID,
-		msg.ContractDeviceID,
-	)
-*/
+	/*
+		k.RemovePowerPurchaseContract(
+			ctx,
+			msg.ContractID,
+			msg.ContractDeviceID,
+		)
+	*/
 
-// Dont delete, set as invalid instead
+	// Dont delete, set as invalid instead
 	var powerPurchaseContract = types.PowerPurchaseContract{
 		Creator:                       valFound.Creator,
 		ContractID:                    valFound.ContractID,

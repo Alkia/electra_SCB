@@ -10,7 +10,7 @@ import (
 func (k msgServer) Record3(goCtx context.Context, msg *types.MsgRecord3) (*types.MsgRecord3Response, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-		// DONE: Handling the message
+	// DONE: Handling the message
 	var recording1 = types.Meterreadings{
 		DeviceID:  msg.Creator,
 		Timestamp: msg.Timestamp,
@@ -50,8 +50,6 @@ func (k msgServer) Record3(goCtx context.Context, msg *types.MsgRecord3) (*types
 	k.SetMeterreadings(ctx, recording1) // from scafolding the MAP object | in file keeper/meterreading.go
 	k.SetMeterreadings(ctx, recording2) // from scafolding the MAP object | in file keeper/meterreading.go
 	k.SetMeterreadings(ctx, recording3) // from scafolding the MAP object | in file keeper/meterreading.go
-
-
 
 	return &types.MsgRecord3Response{}, nil
 }

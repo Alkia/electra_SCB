@@ -542,6 +542,14 @@ export interface MeterQueryGetproducerbillResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface MeterQueryListrecordings100Response {
+  meterreadings?: string;
+  comments?: string;
+
+  /** @format uint64 */
+  total?: string;
+}
+
 export interface MeterQueryListrecordingsResponse {
   meterreadings?: string[];
   comments?: string;
@@ -1004,6 +1012,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       path: `/electra/meter/listrecordings/${deviceId}/${start}/${end}/${byUnixTime}`,
       method: "GET",
       query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryListrecordings100
+   * @summary Queries a list of Listrecordings100 items.
+   * @request GET:/electra/meter/listrecordings_100/{deviceID}/{byUnixTime}
+   */
+  queryListrecordings100 = (deviceId: string, byUnixTime: boolean, params: RequestParams = {}) =>
+    this.request<MeterQueryListrecordings100Response, RpcStatus>({
+      path: `/electra/meter/listrecordings_100/${deviceId}/${byUnixTime}`,
+      method: "GET",
       format: "json",
       ...params,
     });

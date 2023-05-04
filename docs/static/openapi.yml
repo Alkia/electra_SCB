@@ -33722,7 +33722,9 @@ paths:
             type: object
             properties:
               meterreadings:
-                type: string
+                type: array
+                items:
+                  type: string
               comments:
                 type: string
               total:
@@ -71071,7 +71073,9 @@ definitions:
     type: object
     properties:
       meterreadings:
-        type: string
+        type: array
+        items:
+          type: string
       comments:
         type: string
       total:
